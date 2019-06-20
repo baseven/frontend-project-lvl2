@@ -1,1 +1,1 @@
-1. check github sync ()
+1. check github sync (+)
