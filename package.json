@@ -1,0 +1,19 @@
+{
+  "name": "frontend-project-lvl2-by-va",
+  "version": "0.0.2",
+  "description": "the second project within the educational platform hexlet.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baseven/frontend-project-lvl2.git"
+  },
+  "author": "Vladislav Akashev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/baseven/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/baseven/frontend-project-lvl2#readme"
+}
