@@ -1,9 +1,9 @@
 {
   "name": "frontend-project-lvl2-by-va",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "the second project within the educational platform hexlet.io",
   "bin": {
-    "brain-games": "dist/bin/brain-games.js"
+    "executable file": "dist/bin/exe.js"
   },
   "files": [
     "dist"
