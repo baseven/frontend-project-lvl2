@@ -1,9 +1,14 @@
 {
   "name": "frontend-project-lvl2-by-va",
   "version": "0.0.3",
-  "description": "the second project within the educational platform hexlet.io",
+  "description": "gendiff project",
+  "keywords": [
+    "logical thinking",
+    "educational project"
+  ],
+  "main": "dist/index.js",
   "bin": {
-    "executable-file": "dist/bin/exe.js"
+    "gendiff": "dist/bin/gendiff.js"
   },
   "files": [
     "dist"
@@ -28,5 +33,8 @@
     "@babel/core": "^7.4.5",
     "@babel/node": "^7.4.5",
     "@babel/preset-env": "^7.4.5"
+  },
+  "dependencies": {
+    "readline-sync": "^1.4.9"
   }
 }
