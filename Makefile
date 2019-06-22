@@ -4,6 +4,9 @@ install:
 start:
 	npx babel-node -- src/bin/exe.js
 
+test:
+	npm test
+
 lint:
 	npx eslint .
 
