@@ -1,2 +1,3 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/fa53fc87039982487d68/maintainability)](https://codeclimate.com/github/baseven/frontend-project-lvl2/maintainability)
 [![Build Status](https://travis-ci.org/baseven/frontend-project-lvl2.svg?branch=master)](https://travis-ci.org/baseven/frontend-project-lvl2)
+[![asciicast](https://asciinema.org/a/gqnuYVAUZuM9NwiT6ci7KVzjw.svg)](https://asciinema.org/a/gqnuYVAUZuM9NwiT6ci7KVzjw)
