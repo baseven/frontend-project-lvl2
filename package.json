@@ -42,6 +42,7 @@
     "jest": "^24.8.0"
   },
   "dependencies": {
+    "commander": "^2.20.0",
     "readline-sync": "^1.4.9"
   }
 }

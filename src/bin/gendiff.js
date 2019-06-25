@@ -1,3 +1,10 @@
 #!/usr/bin/env node
 
-console.log('Welcome to the second project!');
+import program from 'commander';
+
+program
+  .version('0.0.0')
+  .description('Compares two configuration files and shows a difference.')
+  .arguments('<firstConfig> <secondConfig>')
+  .option('-f, --format [type]', 'Output format')
+  .parse(process.argv);
