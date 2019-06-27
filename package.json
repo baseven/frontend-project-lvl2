@@ -1,9 +1,9 @@
 {
   "name": "frontend-project-lvl2-by-va",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "gendiff project",
   "keywords": [
-    "logical thinking",
+    "utility to compare files",
     "educational project"
   ],
   "main": "dist/index.js",
@@ -27,6 +27,9 @@
   "bugs": {
     "url": "https://github.com/baseven/frontend-project-lvl2/issues"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "homepage": "https://github.com/baseven/frontend-project-lvl2#readme",
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -40,9 +43,13 @@
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-jest": "^22.7.0",
-    "jest": "^24.8.0"
+    "jest": "^24.8.0",
+    "jest-cli": "^24.8.0"
   },
   "dependencies": {
-    "commander": "^2.20.0"
+    "commander": "^2.20.0",
+    "fs": "0.0.1-security",
+    "lodash": "^4.17.11",
+    "path": "^0.12.7"
   }
 }
