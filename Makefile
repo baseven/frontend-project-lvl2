@@ -7,6 +7,9 @@ start:
 test:
 	npm test -- --coverage
 
+watchAll:
+	npm test --watchAll
+
 lint:
 	npx eslint .
 
