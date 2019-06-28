@@ -5,7 +5,7 @@ start:
 	npx babel-node -- src/bin/gendiff.js
 
 test:
-	npm test --coverage
+	npm test
 
 lint:
 	npx eslint .
