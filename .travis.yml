@@ -19,4 +19,5 @@ script:
   - make test
 
 after_script:
+  - ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
