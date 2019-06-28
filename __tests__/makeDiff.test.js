@@ -1,3 +1,4 @@
+// import fs from 'fs';
 import makeDiff from '../src';
 
 const pathToFile1 = '__tests__/__fixtures__/before.json';
