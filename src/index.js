@@ -20,7 +20,6 @@ const makeСomparison = (firstObj, secondObj) => {
   const firstObjKeys = Object.keys(firstObj);
   const secondObjKeys = Object.keys(secondObj);
   const keys = _.union(firstObjKeys, secondObjKeys);
-  console.log(keys);
 
   const genElement = (key) => {
     const element = firstObj[key] !== secondObj[key]
@@ -65,13 +64,9 @@ const makeСomparison = (firstObj, secondObj) => {
 const makeDiff = (pathToFile1, pathToFile2) => {
   const absPathToFile1 = getAbsPathToFile(pathToFile1);
   const absPathToFile2 = getAbsPathToFile(pathToFile2);
-  console.log(absPathToFile1);
-  console.log(absPathToFile2);
 
   const objFromFile1 = JSON.parse(getContent(absPathToFile1));
   const objFromFile2 = JSON.parse(getContent(absPathToFile2));
-  console.log(objFromFile1);
-  console.log(objFromFile2);
 
   const diff = makeСomparison(objFromFile1, objFromFile2);
   return diff;
