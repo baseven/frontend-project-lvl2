@@ -49,6 +49,7 @@
   "dependencies": {
     "commander": "^2.20.0",
     "fs": "0.0.1-security",
+    "js-yaml": "^3.13.1",
     "lodash": "^4.17.11",
     "path": "^0.12.7"
   }
