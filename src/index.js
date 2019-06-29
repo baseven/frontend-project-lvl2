@@ -1,20 +1,5 @@
 import _ from 'lodash';
-import path from 'path';
-import fs from 'fs';
-
-const getAbsPathToFile = (pathToFile) => {
-  const absPathToFile = path.isAbsolute(pathToFile)
-    ? pathToFile
-    : `${process.cwd()}/${pathToFile}`;
-  return absPathToFile;
-};
-// `${__dirname}/${pathToFile}` выдает dist
-// __dirname не является глобальным; он локален для текущего модуля,
-// поэтому каждый файл имеет свое локальное, другое значение.
-// Если вам нужен корневой каталог запущенного процесса,
-// вы, вероятно, захотите использовать process.cwd()
-
-const getContent = absPathToFile => fs.readFileSync(absPathToFile, 'utf-8');
+import parseFile from './parsers';
 
 const makeСomparison = (firstObj, secondObj) => {
   const firstObjKeys = Object.keys(firstObj);
@@ -62,11 +47,8 @@ const makeСomparison = (firstObj, secondObj) => {
 };
 
 const makeDiff = (pathToFile1, pathToFile2) => {
-  const absPathToFile1 = getAbsPathToFile(pathToFile1);
-  const absPathToFile2 = getAbsPathToFile(pathToFile2);
-
-  const objFromFile1 = JSON.parse(getContent(absPathToFile1));
-  const objFromFile2 = JSON.parse(getContent(absPathToFile2));
+  const objFromFile1 = parseFile(pathToFile1);
+  const objFromFile2 = parseFile(pathToFile2);
 
   const diff = makeСomparison(objFromFile1, objFromFile2);
   return diff;
