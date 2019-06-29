@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
-import yaml from 'js-yaml';
+import yml from 'js-yaml';
+import ini from 'ini';
 
 const getAbsPathToFile = (pathToFile) => {
   const absPathToFile = path.isAbsolute(pathToFile)
@@ -19,7 +20,11 @@ const formats = [
   },
   {
     type: '.yml',
-    parse: yaml.safeLoad,
+    parse: yml.safeLoad,
+  },
+  {
+    type: '.ini',
+    parse: ini.parse,
   },
 ];
 

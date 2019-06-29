@@ -3,8 +3,12 @@ import makeDiff from '../src';
 
 const pathToFile1 = `${__dirname}/__fixtures__/__json__/before.json`;
 const pathToFile2 = `${__dirname}/__fixtures__/__json__/after.json`;
+
 const pathToFile3 = `${__dirname}/__fixtures__/__yml__/before.yml`;
 const pathToFile4 = `${__dirname}/__fixtures__/__yml__/after.yml`;
+
+const pathToFile5 = `${__dirname}/__fixtures__/__ini__/before.ini`;
+const pathToFile6 = `${__dirname}/__fixtures__/__ini__/after.ini`;
 
 // const pathToResult = '__tests__/__fixtures__/jsonTestResult.txt';
 
@@ -16,4 +20,8 @@ test('makeDiff using json', () => {
 
 test('makeDiff using yml', () => {
   expect(makeDiff(pathToFile3, pathToFile4)).toBe(result);
+});
+
+test('makeDiff using ini', () => {
+  expect(makeDiff(pathToFile5, pathToFile6)).toBe(result);
 });

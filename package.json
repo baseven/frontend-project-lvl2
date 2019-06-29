@@ -1,6 +1,6 @@
 {
   "name": "frontend-project-lvl2-by-va",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "gendiff project",
   "keywords": [
     "utility to compare files",
@@ -49,6 +49,7 @@
   "dependencies": {
     "commander": "^2.20.0",
     "fs": "0.0.1-security",
+    "ini": "^1.3.5",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.11",
     "path": "^0.12.7"
