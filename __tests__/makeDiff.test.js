@@ -1,4 +1,5 @@
 // import fs from 'fs';
+// import path from 'path';
 import makeDiff from '../src';
 
 const pathToFile1 = `${__dirname}/__fixtures__/__json__/before.json`;
@@ -14,8 +15,15 @@ const pathToFile6 = `${__dirname}/__fixtures__/__ini__/after.ini`;
 
 const result = '{\n\t  host: hexlet.io\n\t+ timeout: 20\n\t- timeout: 50\n\t- proxy: 123.234.53.22\n\t- follow: false\n\t+ verbose: true\n}';
 
+test.each([[`${pathToFile1}`, `${pathToFile2}`, result], [`${pathToFile3}`, `${pathToFile4}`, result], [`${pathToFile5}`, `${pathToFile6}`, result]])(
+  'makeDiff',
+  (pathToFileBefore, pathToFileAfter, testResult) => {
+    expect(makeDiff(pathToFileBefore, pathToFileAfter)).toBe(testResult);
+  },
+);
+/*
 test('makeDiff using json', () => {
-  expect(makeDiff(`${pathToFile1}`, pathToFile2)).toBe(result);
+  expect(makeDiff(pathToFile1, pathToFile2)).toBe(result);
 });
 
 test('makeDiff using yml', () => {
@@ -25,3 +33,4 @@ test('makeDiff using yml', () => {
 test('makeDiff using ini', () => {
   expect(makeDiff(pathToFile5, pathToFile6)).toBe(result);
 });
+*/
