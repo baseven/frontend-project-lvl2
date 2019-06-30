@@ -1,44 +1,38 @@
 import _ from 'lodash';
 import parseFile from './parsers';
+import genElement from './renders';
+
+const operations = [
+  {
+    firstArg: true,
+    secondArg: true,
+    operation: 'modifyOrNot',
+  },
+  {
+    firstArg: true,
+    secondArg: false,
+    operation: 'delete',
+  },
+  {
+    firstArg: false,
+    secondArg: true,
+    operation: 'add',
+  },
+];
 
 const makeСomparison = (firstObj, secondObj) => {
   const firstObjKeys = Object.keys(firstObj);
   const secondObjKeys = Object.keys(secondObj);
   const keys = _.union(firstObjKeys, secondObjKeys);
 
-  const genElement = (key) => {
-    const element = firstObj[key] !== secondObj[key]
-      ? `\t+ ${key}: ${secondObj[key]}\n\t- ${key}: ${firstObj[key]}`
-      : `\t  ${key}: ${secondObj[key]}`;
-    return element;
-  };
-
-  const operations = [
-    {
-      firstArg: true,
-      secondArg: true,
-      operation: key => genElement(key),
-    },
-    {
-      firstArg: true,
-      secondArg: false,
-      operation: key => `\t- ${key}: ${firstObj[key]}`,
-    },
-    {
-      firstArg: false,
-      secondArg: true,
-      operation: key => `\t+ ${key}: ${secondObj[key]}`,
-    },
-  ];
-
   const getOperation = (key) => {
     const selectOperation = ({ firstArg, secondArg }) => firstArg === _.has(firstObj, key)
     && secondArg === _.has(secondObj, key);
-    return operations.find(selectOperation);
+    return operations.find(selectOperation).operation;
   };
 
   const func = (acc, value) => {
-    const newElement = getOperation(value).operation(value);
+    const newElement = genElement(value, firstObj, secondObj, getOperation(value));
     return [...acc, newElement];
   };
 
