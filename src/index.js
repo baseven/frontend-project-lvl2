@@ -1,50 +1,66 @@
 import _ from 'lodash';
-import parseFile from './parsers';
-import genElement from './renders';
+import parse from './parsers';
+import render from './renders';
 
-const operations = [
-  {
-    firstArg: true,
-    secondArg: true,
-    operation: 'modifyOrNot',
-  },
-  {
-    firstArg: true,
-    secondArg: false,
-    operation: 'delete',
-  },
-  {
-    firstArg: false,
-    secondArg: true,
-    operation: 'add',
-  },
-];
+const makeAST = (oldObj, newObj) => {
+  const keys = _.union(Object.keys(oldObj), Object.keys(newObj));
 
-const makeСomparison = (firstObj, secondObj) => {
-  const firstObjKeys = Object.keys(firstObj);
-  const secondObjKeys = Object.keys(secondObj);
-  const keys = _.union(firstObjKeys, secondObjKeys);
+  const operations = [
+    {
+      condition: arg => !(_.has(oldObj, arg)),
+      operation: 'add',
+    },
+    {
+      condition: arg => !(_.has(newObj, arg)),
+      operation: 'delete',
+    },
+    {
+      condition: arg => oldObj[arg] instanceof Object && newObj[arg] instanceof Object,
+      operation: 'compare',
+    },
+    {
+      condition: arg => oldObj[arg] === newObj[arg],
+      operation: 'unmodify',
+    },
+    {
+      condition: arg => oldObj[arg] !== newObj[arg],
+      operation: 'modify',
+    },
+  ];
 
-  const getOperation = (key) => {
-    const selectOperation = ({ firstArg, secondArg }) => firstArg === _.has(firstObj, key)
-    && secondArg === _.has(secondObj, key);
-    return operations.find(selectOperation).operation;
+  const getOperation = arg => operations.find(({ condition }) => condition(arg)).operation;
+
+  const buildNode = (key) => {
+    const node = {
+      keyName: `${key}`,
+      operation: getOperation(key),
+    };
+
+    if (node.operation === 'compare') {
+      node.children = makeAST(oldObj[key], newObj[key]);
+      return node;
+    }
+
+    node.data = {
+      oldObjValue: oldObj[key],
+      newObjValue: newObj[key],
+    };
+    return node;
   };
 
-  const func = (acc, value) => {
-    const newElement = genElement(value, firstObj, secondObj, getOperation(value));
-    return [...acc, newElement];
-  };
+  const ast = keys.map(buildNode);
 
-  const comparisonResults = keys.reduce(func, []);
-  return `{\n${comparisonResults.join('\n')}\n}`;
+  return ast;
 };
 
-const makeDiff = (pathToFile1, pathToFile2) => {
-  const objFromFile1 = parseFile(pathToFile1);
-  const objFromFile2 = parseFile(pathToFile2);
+const makeDiff = (pathToOldFile, pathToNewFile) => {
+  const objFromOldFile = parse(pathToOldFile);
+  const objFromNewFile = parse(pathToNewFile);
 
-  const diff = makeСomparison(objFromFile1, objFromFile2);
+  const ast = makeAST(objFromOldFile, objFromNewFile);
+
+  const diff = render(ast);
+
   return diff;
 };
 
