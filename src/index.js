@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import parse from './parsers';
-import render from './renders';
+import getRender from './formatters/index';
 
 const makeAST = (oldObj, newObj) => {
   const keys = _.union(Object.keys(oldObj), Object.keys(newObj));
@@ -53,9 +53,11 @@ const makeAST = (oldObj, newObj) => {
   return ast;
 };
 
-const makeDiff = (pathToOldFile, pathToNewFile) => {
+const makeDiff = (pathToOldFile, pathToNewFile, format = 'standard') => {
   const objFromOldFile = parse(pathToOldFile);
   const objFromNewFile = parse(pathToNewFile);
+
+  const render = getRender(format);
 
   const ast = makeAST(objFromOldFile, objFromNewFile);
 
