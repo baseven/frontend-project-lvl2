@@ -22,26 +22,42 @@ const pathToFile12 = `${__dirname}/__fixtures__/__recursiveStructure__/__ini__/a
 
 /*
 fs.writeFileSync(`${__dirname}/__fixtures__/__flatStructure__/
-flatStrTestResult.txt`, makeDiff(pathToFile1, pathToFile2));
+__testResult__/plain.txt`, makeDiff(pathToFile1, pathToFile2, 'plain'));
 
 fs.writeFileSync(`${__dirname}/__fixtures__/__recursiveStructure__/
-recStrTestResult.txt`, makeDiff(pathToFile7, pathToFile8));
+__testResult__/plain.txt`, makeDiff(pathToFile7, pathToFile8, 'plain'));
 */
 
-const flatStrTestResult = fs.readFileSync(`${__dirname}/__fixtures__/__flatStructure__/flatStrTestResult.txt`, 'utf8');
-const recStrTestResult = fs.readFileSync(`${__dirname}/__fixtures__/__recursiveStructure__/recStrTestResult.txt`, 'utf8');
+const standardFlatTestResult = fs.readFileSync(`${__dirname}/__fixtures__/__flatStructure__/__testResult__/standard.txt`, 'utf8');
+const plainFlatTestResult = fs.readFileSync(`${__dirname}/__fixtures__/__flatStructure__/__testResult__/plain.txt`, 'utf8');
 
+const standardRecTestResult = fs.readFileSync(`${__dirname}/__fixtures__/__recursiveStructure__/__testResult__/standard.txt`, 'utf8');
+const plainRecTestResult = fs.readFileSync(`${__dirname}/__fixtures__/__recursiveStructure__/__testResult__/plain.txt`, 'utf8');
 
-test.each([[`${pathToFile1}`, `${pathToFile2}`, flatStrTestResult], [`${pathToFile3}`, `${pathToFile4}`, flatStrTestResult], [`${pathToFile5}`, `${pathToFile6}`, flatStrTestResult]])(
-  'makeDiff using files with the flat data structure',
+test.each([[`${pathToFile1}`, `${pathToFile2}`, standardFlatTestResult], [`${pathToFile3}`, `${pathToFile4}`, standardFlatTestResult], [`${pathToFile5}`, `${pathToFile6}`, standardFlatTestResult]])(
+  'makeDiff using files with the flat data structure and standard output format',
   (pathToFileBefore, pathToFileAfter, testResult) => {
     expect(makeDiff(pathToFileBefore, pathToFileAfter)).toBe(testResult);
   },
 );
 
-test.each([[`${pathToFile7}`, `${pathToFile8}`, recStrTestResult], [`${pathToFile9}`, `${pathToFile10}`, recStrTestResult], [`${pathToFile11}`, `${pathToFile12}`, recStrTestResult]])(
-  'makeDiff using files with the recursive data structure',
+test.each([[`${pathToFile1}`, `${pathToFile2}`, plainFlatTestResult], [`${pathToFile3}`, `${pathToFile4}`, plainFlatTestResult], [`${pathToFile5}`, `${pathToFile6}`, plainFlatTestResult]])(
+  'makeDiff using files with the flat data structure and plain output format',
+  (pathToFileBefore, pathToFileAfter, testResult) => {
+    expect(makeDiff(pathToFileBefore, pathToFileAfter, 'plain')).toBe(testResult);
+  },
+);
+
+test.each([[`${pathToFile7}`, `${pathToFile8}`, standardRecTestResult], [`${pathToFile9}`, `${pathToFile10}`, standardRecTestResult], [`${pathToFile11}`, `${pathToFile12}`, standardRecTestResult]])(
+  'makeDiff using files with the recursive data structure and standard output format',
   (pathToFileBefore, pathToFileAfter, testResult) => {
     expect(makeDiff(pathToFileBefore, pathToFileAfter)).toBe(testResult);
+  },
+);
+
+test.each([[`${pathToFile7}`, `${pathToFile8}`, plainRecTestResult], [`${pathToFile9}`, `${pathToFile10}`, plainRecTestResult], [`${pathToFile11}`, `${pathToFile12}`, plainRecTestResult]])(
+  'makeDiff using files with the recursive data structure and plain output format',
+  (pathToFileBefore, pathToFileAfter, testResult) => {
+    expect(makeDiff(pathToFileBefore, pathToFileAfter, 'plain')).toBe(testResult);
   },
 );
