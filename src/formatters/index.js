@@ -1,11 +1,12 @@
-import standardRender from './standard';
+import defaultRender from './default';
 import plainRender from './plain';
-
+import jsonRender from './json';
 
 const getRender = (format) => {
   const formatters = {
-    standard: standardRender,
+    default: defaultRender,
     plain: plainRender,
+    json: jsonRender,
   };
 
   return formatters[format];

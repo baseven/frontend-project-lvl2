@@ -9,36 +9,35 @@ const customStringify = (value) => {
 };
 
 const methods = {
-  add: data => `was added with value: ${customStringify(data.newObjValue)}`,
-  delete: () => 'was removed',
-  modify: data => `was updated. From ${customStringify(data.oldObjValue)} to ${customStringify(data.newObjValue)}`,
+  added: data => `was added with value: ${customStringify(data.newObjValue)}`,
+  removed: () => 'was removed',
+  updated: data => `was updated. From ${customStringify(data.oldObjValue)} to ${customStringify(data.newObjValue)}`,
 };
 
 const getString = (property, operation, data) => `Property '${property}' ${methods[operation](data)}\n`;
 
-
 const render = (ast, path = '') => {
-  const func = (acc, value) => {
+  const makeNodeProcessing = (acc, value) => {
     const {
-      keyName,
+      property,
       operation,
       data,
       children,
     } = value;
 
-    if (operation === 'unmodify') {
+    if (operation === 'unchanged') {
       return acc;
     }
 
     if (!children) {
-      const string = getString(path.concat(`${keyName}`), operation, data);
+      const string = getString(path.concat(`${property}`), operation, data);
       return acc.concat(string);
     }
-    const substring = render(children, path.concat(`${keyName}.`));
+    const substring = render(children, path.concat(`${property}.`));
     return acc.concat(substring);
   };
 
-  return ast.reduce(func, '');
+  return ast.reduce(makeNodeProcessing, '');
 };
 
 export default render;

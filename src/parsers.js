@@ -13,17 +13,17 @@ const getAbsPathToFile = (pathToFile) => {
 
 const getContent = absPathToFile => fs.readFileSync(absPathToFile, 'utf-8');
 
-const formats = [
+const parsingMethods = [
   {
-    type: '.json',
+    format: '.json',
     parse: JSON.parse,
   },
   {
-    type: '.yml',
+    format: '.yml',
     parse: yml.safeLoad,
   },
   {
-    type: '.ini',
+    format: '.ini',
     parse: ini.parse,
   },
 ];
@@ -33,8 +33,7 @@ const parseFile = (pathToFile) => {
   const content = getContent(absPathToFile);
   const extension = path.extname(absPathToFile);
 
-  const selectTypeOfFormat = ({ type }) => type === extension;
-  const objFromFile = formats.find(selectTypeOfFormat).parse(content);
+  const objFromFile = parsingMethods.find(({ format }) => format === extension).parse(content);
 
   return objFromFile;
 };

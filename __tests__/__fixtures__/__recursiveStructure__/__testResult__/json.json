@@ -1,0 +1,63 @@
+{
+    "common": {
+        "setting1": {
+            "status": "unchanged",
+            "currentValue": "'Value 1'"
+        },
+        "setting2": {
+            "status": "removed",
+            "previousValue": "200"
+        },
+        "setting3": {
+            "status": "updated",
+            "currentValue": "[complex value]",
+            "previousValue": "'true'"
+        },
+        "setting6": {
+            "key": {
+                "status": "unchanged",
+                "currentValue": "'value'"
+            },
+            "ops": {
+                "status": "added",
+                "currentValue": "'vops'"
+            }
+        },
+        "follow": {
+            "status": "added",
+            "currentValue": "'false'"
+        },
+        "setting4": {
+            "status": "added",
+            "currentValue": "'blah blah'"
+        },
+        "setting5": {
+            "status": "added",
+            "currentValue": "[complex value]"
+        }
+    },
+    "group1": {
+        "baz": {
+            "status": "updated",
+            "currentValue": "'bars'",
+            "previousValue": "'bas'"
+        },
+        "foo": {
+            "status": "unchanged",
+            "currentValue": "'bar'"
+        },
+        "nest": {
+            "status": "updated",
+            "currentValue": "'str'",
+            "previousValue": "[complex value]"
+        }
+    },
+    "group2": {
+        "status": "removed",
+        "previousValue": "[complex value]"
+    },
+    "group3": {
+        "status": "added",
+        "currentValue": "[complex value]"
+    }
+}
