@@ -1,15 +1,15 @@
-import customStringify from './utils';
+import stringify from './utils';
 
 const getObject = (operation, data) => {
   const renderMethodsForOperations = {
-    added: { status: operation, currentValue: customStringify(data.newObjValue) },
-    removed: { status: operation, previousValue: customStringify(data.oldObjValue) },
+    added: { status: operation, currentValue: stringify(data.newObjValue) },
+    removed: { status: operation, previousValue: stringify(data.oldObjValue) },
     updated: {
       status: operation,
-      currentValue: customStringify(data.newObjValue),
-      previousValue: customStringify(data.oldObjValue),
+      currentValue: stringify(data.newObjValue),
+      previousValue: stringify(data.oldObjValue),
     },
-    unchanged: { status: operation, currentValue: customStringify(data.oldObjValue) },
+    unchanged: { status: operation, currentValue: stringify(data.oldObjValue) },
   };
   return renderMethodsForOperations[operation];
 };

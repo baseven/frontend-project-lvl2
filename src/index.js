@@ -27,28 +27,28 @@ const getObject = (pathToFile) => {
 const getOperation = (oldObj, newObj, key) => {
   const operations = [
     {
-      selectCondition: arg => !(_.has(oldObj, arg)),
+      check: arg => !(_.has(oldObj, arg)),
       operation: 'added',
     },
     {
-      selectCondition: arg => !(_.has(newObj, arg)),
+      check: arg => !(_.has(newObj, arg)),
       operation: 'removed',
     },
     {
-      selectCondition: arg => _.isObject(oldObj[arg]) && _.isObject(newObj[arg]),
+      check: arg => _.isObject(oldObj[arg]) && _.isObject(newObj[arg]),
       operation: 'complex value',
     },
     {
-      selectCondition: arg => oldObj[arg] === newObj[arg],
+      check: arg => oldObj[arg] === newObj[arg],
       operation: 'unchanged',
     },
     {
-      selectCondition: arg => oldObj[arg] !== newObj[arg],
+      check: arg => oldObj[arg] !== newObj[arg],
       operation: 'updated',
     },
   ];
 
-  return operations.find(({ selectCondition }) => selectCondition(key)).operation;
+  return operations.find(({ check }) => check(key)).operation;
 };
 
 const makeAST = (oldObj, newObj) => {

@@ -1,9 +1,9 @@
-import customStringify from './utils';
+import stringify from './utils';
 
 const renderMethodsForOperations = {
-  added: data => `was added with value: ${customStringify(data.newObjValue)}`,
+  added: data => `was added with value: ${stringify(data.newObjValue)}`,
   removed: () => 'was removed',
-  updated: data => `was updated. From ${customStringify(data.oldObjValue)} to ${customStringify(data.newObjValue)}`,
+  updated: data => `was updated. From ${stringify(data.oldObjValue)} to ${stringify(data.newObjValue)}`,
 };
 
 const getString = (property, operation, data) => `Property '${property}' ${renderMethodsForOperations[operation](data)}\n`;
