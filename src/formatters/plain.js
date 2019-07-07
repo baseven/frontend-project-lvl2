@@ -1,12 +1,4 @@
-import _ from 'lodash';
-
-const customStringify = (value) => {
-  if (_.isObject(value)) {
-    return '[complex value]';
-  }
-
-  return (parseInt(value, 10) || value === 0) ? `${value}` : `'${value}'`;
-};
+import customStringify from './utils';
 
 const renderMethodsForOperations = {
   added: data => `was added with value: ${customStringify(data.newObjValue)}`,

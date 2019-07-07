@@ -1,15 +1,7 @@
-const customStringify = (value) => {
-  if (value instanceof Object) {
-    return '[complex value]';
-  }
-  if (parseInt(value, 10)) {
-    return `${value}`;
-  }
-  return `'${value}'`;
-};
+import customStringify from './utils';
 
-const getInfo = (operation, data) => {
-  const operations = {
+const getObject = (operation, data) => {
+  const renderMethodsForOperations = {
     added: { status: operation, currentValue: customStringify(data.newObjValue) },
     removed: { status: operation, previousValue: customStringify(data.oldObjValue) },
     updated: {
@@ -19,7 +11,7 @@ const getInfo = (operation, data) => {
     },
     unchanged: { status: operation, currentValue: customStringify(data.oldObjValue) },
   };
-  return operations[operation];
+  return renderMethodsForOperations[operation];
 };
 
 const makeComplexObject = (ast) => {
@@ -32,7 +24,7 @@ const makeComplexObject = (ast) => {
     } = value;
 
     if (!children) {
-      acc[property] = getInfo(operation, data);
+      acc[property] = getObject(operation, data);
       return acc;
     }
     acc[property] = makeComplexObject(children);
