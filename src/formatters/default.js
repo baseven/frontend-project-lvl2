@@ -1,7 +1,9 @@
+import _ from 'lodash';
+
 const [tab, newLine] = ['  ', '\n'];
 
 const customStringify = (value, numOfTabs) => {
-  if (value instanceof Object) {
+  if (_.isObject(value)) {
     const element = JSON.stringify(value)
       .replace('{', '')
       .replace('}', '')
@@ -12,10 +14,10 @@ const customStringify = (value, numOfTabs) => {
   return `${value}`;
 };
 
-const formString = (matSymbol, property, data, tabIndex) => `${newLine}${tab.repeat(tabIndex)}${matSymbol} ${property}: `
+const formString = (mathSymbol, property, data, tabIndex) => `${newLine}${tab.repeat(tabIndex)}${mathSymbol} ${property}: `
   .concat(customStringify(data, tabIndex));
 
-const methods = {
+const renderMethodsForOperations = {
   added: (property, data, tabIndex) => formString('+', property, data.newObjValue, tabIndex),
   removed: (property, data, tabIndex) => formString('-', property, data.oldObjValue, tabIndex),
   updated: (property, data, tabIndex) => formString('+', property, data.newObjValue, tabIndex)
@@ -33,7 +35,7 @@ const render = (ast, tabIndex = 1) => {
     } = value;
 
     if (!children) {
-      const string = methods[operation](property, data, tabIndex + 1);
+      const string = renderMethodsForOperations[operation](property, data, tabIndex + 1);
       return acc.concat(string);
     }
     const substring = render(children, tabIndex + 1);
