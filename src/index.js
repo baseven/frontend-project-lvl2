@@ -35,7 +35,7 @@ const getOperation = (oldObj, newObj, key) => {
       operation: 'removed',
     },
     {
-      selectCondition: arg => oldObj[arg] instanceof Object && newObj[arg] instanceof Object,
+      selectCondition: arg => _.isObject(oldObj[arg]) && _.isObject(newObj[arg]),
       operation: 'complex value',
     },
     {

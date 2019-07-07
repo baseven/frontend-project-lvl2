@@ -1,20 +1,20 @@
+import _ from 'lodash';
+
 const customStringify = (value) => {
-  if (value instanceof Object) {
+  if (_.isObject(value)) {
     return '[complex value]';
   }
-  if (parseInt(value, 10)) {
-    return `${value}`;
-  }
-  return `'${value}'`;
+
+  return (parseInt(value, 10) || value === 0) ? `${value}` : `'${value}'`;
 };
 
-const methods = {
+const renderMethodsForOperations = {
   added: data => `was added with value: ${customStringify(data.newObjValue)}`,
   removed: () => 'was removed',
   updated: data => `was updated. From ${customStringify(data.oldObjValue)} to ${customStringify(data.newObjValue)}`,
 };
 
-const getString = (property, operation, data) => `Property '${property}' ${methods[operation](data)}\n`;
+const getString = (property, operation, data) => `Property '${property}' ${renderMethodsForOperations[operation](data)}\n`;
 
 const render = (ast, path = '') => {
   const makeNodeProcessing = (acc, value) => {
@@ -33,6 +33,7 @@ const render = (ast, path = '') => {
       const string = getString(path.concat(`${property}`), operation, data);
       return acc.concat(string);
     }
+
     const substring = render(children, path.concat(`${property}.`));
     return acc.concat(substring);
   };
