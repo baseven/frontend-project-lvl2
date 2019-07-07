@@ -23,11 +23,11 @@ fs.writeFileSync(`${flatStrPath}__testResult__/json.json`,
 fs.writeFileSync(`${rectStrPath}__testResult__/json.json`,
  makeDiff(pathToFile7, pathToFile8, 'json'));
 */
-const defaultFlatTestResult = fs.readFileSync(`${flatStrPath}__testResult__/standard.txt`, 'utf8');
+const defaultFlatTestResult = fs.readFileSync(`${flatStrPath}__testResult__/default.txt`, 'utf8');
 const plainFlatTestResult = fs.readFileSync(`${flatStrPath}__testResult__/plain.txt`, 'utf8');
 const jsonFlatTestResult = fs.readFileSync(`${flatStrPath}__testResult__/json.json`, 'utf8');
 
-const defaultRecTestResult = fs.readFileSync(`${rectStrPath}__testResult__/standard.txt`, 'utf8');
+const defaultRecTestResult = fs.readFileSync(`${rectStrPath}__testResult__/default.txt`, 'utf8');
 const plainRecTestResult = fs.readFileSync(`${rectStrPath}__testResult__/plain.txt`, 'utf8');
 const jsonRecTestResult = fs.readFileSync(`${rectStrPath}__testResult__/json.json`, 'utf8');
 
