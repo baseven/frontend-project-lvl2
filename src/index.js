@@ -1,6 +1,28 @@
+import path from 'path';
+import fs from 'fs';
 import _ from 'lodash';
-import parse from './parsers';
+import getParse from './parsers';
 import getRender from './formatters/index';
+
+const getAbsPathToFile = (pathToFile) => {
+  const absPathToFile = path.isAbsolute(pathToFile)
+    ? pathToFile
+    : `${process.cwd()}/${pathToFile}`;
+
+  return absPathToFile;
+};
+
+const getContent = absPathToFile => fs.readFileSync(absPathToFile, 'utf-8');
+
+const getObject = (pathToFile) => {
+  const absPathToFile = getAbsPathToFile(pathToFile);
+  const content = getContent(absPathToFile);
+  const extension = path.extname(absPathToFile);
+
+  const parse = getParse(extension);
+
+  return parse(content);
+};
 
 const getOperation = (oldObj, newObj, key) => {
   const operations = [
@@ -57,8 +79,8 @@ const makeAST = (oldObj, newObj) => {
 };
 
 const makeDiff = (pathToOldFile, pathToNewFile, format = 'default') => {
-  const objFromOldFile = parse(pathToOldFile);
-  const objFromNewFile = parse(pathToNewFile);
+  const objFromOldFile = getObject(pathToOldFile);
+  const objFromNewFile = getObject(pathToNewFile);
 
   const render = getRender(format);
 
