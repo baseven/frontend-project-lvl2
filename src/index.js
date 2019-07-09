@@ -1,8 +1,8 @@
 import path from 'path';
 import fs from 'fs';
 import _ from 'lodash';
-import getParse from './parsers';
-import getRender from './formatters/index';
+import getParser from './parsers';
+import getRender from './formatters';
 
 const getAbsPathToFile = (pathToFile) => {
   const absPathToFile = path.isAbsolute(pathToFile)
@@ -19,7 +19,7 @@ const getObject = (pathToFile) => {
   const content = getContent(absPathToFile);
   const extension = path.extname(absPathToFile);
 
-  const parse = getParse(extension);
+  const parse = getParser(extension);
 
   return parse(content);
 };
@@ -78,7 +78,7 @@ const makeAST = (oldObj, newObj) => {
   return ast;
 };
 
-const makeDiff = (pathToOldFile, pathToNewFile, format = 'default') => {
+const makeDiff = (pathToOldFile, pathToNewFile, format = 'complex') => {
   const objFromOldFile = getObject(pathToOldFile);
   const objFromNewFile = getObject(pathToNewFile);
 

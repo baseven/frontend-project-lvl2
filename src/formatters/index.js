@@ -1,10 +1,10 @@
-import defaultRender from './default';
+import complexRender from './complex';
 import plainRender from './plain';
 import jsonRender from './json';
 
 const getRender = (format) => {
   const formatters = {
-    default: defaultRender,
+    complex: complexRender,
     plain: plainRender,
     json: jsonRender,
   };
