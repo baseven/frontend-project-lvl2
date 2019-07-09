@@ -17,56 +17,51 @@ const pathToFile9 = `${rectStrPath}__yml__/before.yml`;
 const pathToFile10 = `${rectStrPath}__yml__/after.yml`;
 const pathToFile11 = `${rectStrPath}__ini__/before.ini`;
 const pathToFile12 = `${rectStrPath}__ini__/after.ini`;
-/*
-fs.writeFileSync(`${flatStrPath}__testResult__/json.json`,
- makeDiff(pathToFile1, pathToFile2, 'json'));
-fs.writeFileSync(`${rectStrPath}__testResult__/json.json`,
- makeDiff(pathToFile7, pathToFile8, 'json'));
-*/
-const defaultFlatTestResult = fs.readFileSync(`${flatStrPath}__testResult__/default.txt`, 'utf8');
-const plainFlatTestResult = fs.readFileSync(`${flatStrPath}__testResult__/plain.txt`, 'utf8');
-const jsonFlatTestResult = fs.readFileSync(`${flatStrPath}__testResult__/json.json`, 'utf8');
 
-const defaultRecTestResult = fs.readFileSync(`${rectStrPath}__testResult__/default.txt`, 'utf8');
-const plainRecTestResult = fs.readFileSync(`${rectStrPath}__testResult__/plain.txt`, 'utf8');
-const jsonRecTestResult = fs.readFileSync(`${rectStrPath}__testResult__/json.json`, 'utf8');
+const getComplexFlatResult = file => fs.readFileSync(`${flatStrPath}__testResult__/${file}`, 'utf8');
+const getPlainFlatResult = file => fs.readFileSync(`${flatStrPath}__testResult__/${file}`, 'utf8');
+const getJsonFlatResult = file => fs.readFileSync(`${flatStrPath}__testResult__/${file}`, 'utf8');
 
-test.each([[`${pathToFile1}`, `${pathToFile2}`, defaultFlatTestResult], [`${pathToFile3}`, `${pathToFile4}`, defaultFlatTestResult], [`${pathToFile5}`, `${pathToFile6}`, defaultFlatTestResult]])(
-  'makeDiff using files with the flat data structure and standard output format',
+const getComplexRecResult = file => fs.readFileSync(`${rectStrPath}__testResult__/${file}`, 'utf8');
+const getPlainRecResult = file => fs.readFileSync(`${rectStrPath}__testResult__/${file}`, 'utf8');
+const getJsonRecResult = file => fs.readFileSync(`${rectStrPath}__testResult__/${file}`, 'utf8');
+
+test.each([[`${pathToFile1}`, `${pathToFile2}`, getComplexFlatResult('complex.txt')], [`${pathToFile3}`, `${pathToFile4}`, getComplexFlatResult('complex.txt')], [`${pathToFile5}`, `${pathToFile6}`, getComplexFlatResult('complex.txt')]])(
+  'makeDiff using files with the flat data structure and complex output format',
   (pathToFileBefore, pathToFileAfter, testResult) => {
     expect(makeDiff(pathToFileBefore, pathToFileAfter)).toBe(testResult);
   },
 );
 
-test.each([[`${pathToFile1}`, `${pathToFile2}`, plainFlatTestResult], [`${pathToFile3}`, `${pathToFile4}`, plainFlatTestResult], [`${pathToFile5}`, `${pathToFile6}`, plainFlatTestResult]])(
+test.each([[`${pathToFile1}`, `${pathToFile2}`, getPlainFlatResult('plain.txt')], [`${pathToFile3}`, `${pathToFile4}`, getPlainFlatResult('plain.txt')], [`${pathToFile5}`, `${pathToFile6}`, getPlainFlatResult('plain.txt')]])(
   'makeDiff using files with the flat data structure and plain output format',
   (pathToFileBefore, pathToFileAfter, testResult) => {
     expect(makeDiff(pathToFileBefore, pathToFileAfter, 'plain')).toBe(testResult);
   },
 );
 
-test.each([[`${pathToFile1}`, `${pathToFile2}`, jsonFlatTestResult], [`${pathToFile3}`, `${pathToFile4}`, jsonFlatTestResult], [`${pathToFile5}`, `${pathToFile6}`, jsonFlatTestResult]])(
+test.each([[`${pathToFile1}`, `${pathToFile2}`, getJsonFlatResult('json.json')], [`${pathToFile3}`, `${pathToFile4}`, getJsonFlatResult('json.json')], [`${pathToFile5}`, `${pathToFile6}`, getJsonFlatResult('json.json')]])(
   'makeDiff using files with the flat data structure and json output format',
   (pathToFileBefore, pathToFileAfter, testResult) => {
     expect(makeDiff(pathToFileBefore, pathToFileAfter, 'json')).toBe(testResult);
   },
 );
 
-test.each([[`${pathToFile7}`, `${pathToFile8}`, defaultRecTestResult], [`${pathToFile9}`, `${pathToFile10}`, defaultRecTestResult], [`${pathToFile11}`, `${pathToFile12}`, defaultRecTestResult]])(
-  'makeDiff using files with the recursive data structure and standard output format',
+test.each([[`${pathToFile7}`, `${pathToFile8}`, getComplexRecResult('complex.txt')], [`${pathToFile9}`, `${pathToFile10}`, getComplexRecResult('complex.txt')], [`${pathToFile11}`, `${pathToFile12}`, getComplexRecResult('complex.txt')]])(
+  'makeDiff using files with the recursive data structure and complex output format',
   (pathToFileBefore, pathToFileAfter, testResult) => {
     expect(makeDiff(pathToFileBefore, pathToFileAfter)).toBe(testResult);
   },
 );
 
-test.each([[`${pathToFile7}`, `${pathToFile8}`, plainRecTestResult], [`${pathToFile9}`, `${pathToFile10}`, plainRecTestResult], [`${pathToFile11}`, `${pathToFile12}`, plainRecTestResult]])(
+test.each([[`${pathToFile7}`, `${pathToFile8}`, getPlainRecResult('plain.txt')], [`${pathToFile9}`, `${pathToFile10}`, getPlainRecResult('plain.txt')], [`${pathToFile11}`, `${pathToFile12}`, getPlainRecResult('plain.txt')]])(
   'makeDiff using files with the recursive data structure and plain output format',
   (pathToFileBefore, pathToFileAfter, testResult) => {
     expect(makeDiff(pathToFileBefore, pathToFileAfter, 'plain')).toBe(testResult);
   },
 );
 
-test.each([[`${pathToFile7}`, `${pathToFile8}`, jsonRecTestResult], [`${pathToFile9}`, `${pathToFile10}`, jsonRecTestResult], [`${pathToFile11}`, `${pathToFile12}`, jsonRecTestResult]])(
+test.each([[`${pathToFile7}`, `${pathToFile8}`, getJsonRecResult('json.json')], [`${pathToFile9}`, `${pathToFile10}`, getJsonRecResult('json.json')], [`${pathToFile11}`, `${pathToFile12}`, getJsonRecResult('json.json')]])(
   'makeDiff using files with the recursive data structure and json output format',
   (pathToFileBefore, pathToFileAfter, testResult) => {
     expect(makeDiff(pathToFileBefore, pathToFileAfter, 'json')).toBe(testResult);
