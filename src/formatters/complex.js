@@ -3,15 +3,16 @@ import _ from 'lodash';
 const [tab, newLine] = ['  ', '\n'];
 
 const customStringify = (value, numOfTabs) => {
-  if (_.isObject(value)) {
-    const element = JSON.stringify(value)
-      .replace('{', '')
-      .replace('}', '')
-      .split('"')
-      .join('');
-    return `{${newLine}${tab.repeat(numOfTabs + 2)}${element}${newLine}${tab.repeat(numOfTabs + 1)}}`;
+  if (!(_.isObject(value))) {
+    return `${value}`;
   }
-  return `${value}`;
+  const element = JSON.stringify(value)
+    .replace('{', '')
+    .replace('}', '')
+    .split('"')
+    .join('');
+
+  return `{${newLine}${tab.repeat(numOfTabs + 2)}${element}${newLine}${tab.repeat(numOfTabs + 1)}}`;
 };
 
 const formString = (mathSymbol, property, data, tabIndex) => `${newLine}${tab.repeat(tabIndex)}${mathSymbol} ${property}: `
