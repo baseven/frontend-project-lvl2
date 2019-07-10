@@ -1,63 +1,104 @@
-{
-    "common": {
-        "setting1": {
-            "status": "unchanged",
-            "currentValue": "'Value 1'"
-        },
-        "setting2": {
-            "status": "removed",
-            "previousValue": "200"
-        },
-        "setting3": {
-            "status": "updated",
-            "currentValue": "[complex value]",
-            "previousValue": "'true'"
-        },
-        "setting6": {
-            "key": {
-                "status": "unchanged",
-                "currentValue": "'value'"
+[
+    {
+        "property": "common",
+        "type": "nested",
+        "children": [
+            {
+                "property": "setting1",
+                "type": "unchanged",
+                "data": "Value 1"
             },
-            "ops": {
-                "status": "added",
-                "currentValue": "'vops'"
+            {
+                "property": "setting2",
+                "type": "removed",
+                "data": "200"
+            },
+            {
+                "property": "setting3",
+                "type": "updated",
+                "data": {
+                    "oldValue": true,
+                    "newValue": {
+                        "key": "value"
+                    }
+                }
+            },
+            {
+                "property": "setting6",
+                "type": "nested",
+                "children": [
+                    {
+                        "property": "key",
+                        "type": "unchanged",
+                        "data": "value"
+                    },
+                    {
+                        "property": "ops",
+                        "type": "added",
+                        "data": "vops"
+                    }
+                ]
+            },
+            {
+                "property": "follow",
+                "type": "added",
+                "data": false
+            },
+            {
+                "property": "setting4",
+                "type": "added",
+                "data": "blah blah"
+            },
+            {
+                "property": "setting5",
+                "type": "added",
+                "data": {
+                    "key5": "value5"
+                }
             }
-        },
-        "follow": {
-            "status": "added",
-            "currentValue": "'false'"
-        },
-        "setting4": {
-            "status": "added",
-            "currentValue": "'blah blah'"
-        },
-        "setting5": {
-            "status": "added",
-            "currentValue": "[complex value]"
+        ]
+    },
+    {
+        "property": "group1",
+        "type": "nested",
+        "children": [
+            {
+                "property": "baz",
+                "type": "updated",
+                "data": {
+                    "oldValue": "bas",
+                    "newValue": "bars"
+                }
+            },
+            {
+                "property": "foo",
+                "type": "unchanged",
+                "data": "bar"
+            },
+            {
+                "property": "nest",
+                "type": "updated",
+                "data": {
+                    "oldValue": {
+                        "key": "value"
+                    },
+                    "newValue": "str"
+                }
+            }
+        ]
+    },
+    {
+        "property": "group2",
+        "type": "removed",
+        "data": {
+            "abc": "12345"
         }
     },
-    "group1": {
-        "baz": {
-            "status": "updated",
-            "currentValue": "'bars'",
-            "previousValue": "'bas'"
-        },
-        "foo": {
-            "status": "unchanged",
-            "currentValue": "'bar'"
-        },
-        "nest": {
-            "status": "updated",
-            "currentValue": "'str'",
-            "previousValue": "[complex value]"
+    {
+        "property": "group3",
+        "type": "added",
+        "data": {
+            "fee": "100500"
         }
-    },
-    "group2": {
-        "status": "removed",
-        "previousValue": "[complex value]"
-    },
-    "group3": {
-        "status": "added",
-        "currentValue": "[complex value]"
     }
-}
+]

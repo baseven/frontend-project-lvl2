@@ -24,56 +24,44 @@ const getObject = (pathToFile) => {
   return parse(content);
 };
 
-const getOperation = (oldObj, newObj, key) => {
-  const operations = [
-    {
-      check: arg => !(_.has(oldObj, arg)),
-      operation: 'added',
-    },
-    {
-      check: arg => !(_.has(newObj, arg)),
-      operation: 'removed',
-    },
-    {
-      check: arg => _.isObject(oldObj[arg]) && _.isObject(newObj[arg]),
-      operation: 'complex value',
-    },
-    {
-      check: arg => oldObj[arg] === newObj[arg],
-      operation: 'unchanged',
-    },
-    {
-      check: arg => oldObj[arg] !== newObj[arg],
-      operation: 'updated',
-    },
-  ];
-
-  return operations.find(({ check }) => check(key)).operation;
-};
-
 const makeAST = (oldObj, newObj) => {
   const keys = _.union(Object.keys(oldObj), Object.keys(newObj));
 
-  const buildNode = (key) => {
-    const node = {
-      property: `${key}`,
-      operation: getOperation(oldObj, newObj, key),
-    };
+  const getNode = (arg) => {
+    const nodeTypes = [
+      {
+        check: () => !(_.has(oldObj, arg)),
+        buildNode: () => ({ property: `${arg}`, type: 'added', data: newObj[arg] }),
+      },
+      {
+        check: () => !(_.has(newObj, arg)),
+        buildNode: () => ({ property: `${arg}`, type: 'removed', data: oldObj[arg] }),
+      },
+      {
+        check: () => _.isObject(oldObj[arg]) && _.isObject(newObj[arg]),
+        buildNode: () => ({ property: `${arg}`, type: 'nested', children: makeAST(oldObj[arg], newObj[arg]) }),
+      },
+      {
+        check: () => oldObj[arg] === newObj[arg],
+        buildNode: () => ({ property: `${arg}`, type: 'unchanged', data: oldObj[arg] }),
+      },
+      {
+        check: () => oldObj[arg] !== newObj[arg],
+        buildNode: () => ({
+          property: `${arg}`,
+          type: 'updated',
+          data: {
+            oldValue: oldObj[arg],
+            newValue: newObj[arg],
+          },
+        }),
+      },
+    ];
 
-    if (node.operation === 'complex value') {
-      node.children = makeAST(oldObj[key], newObj[key]);
-      return node;
-    }
-
-    node.data = {
-      oldObjValue: oldObj[key],
-      newObjValue: newObj[key],
-    };
-
-    return node;
+    return nodeTypes.find(({ check }) => check()).buildNode();
   };
 
-  const ast = keys.map(buildNode);
+  const ast = keys.map(getNode);
 
   return ast;
 };

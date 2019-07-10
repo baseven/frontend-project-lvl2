@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const [tab, newLine] = ['  ', '\n'];
 
-const customStringify = (value, numOfTabs) => {
+const stringify = (value, numOfTabs) => {
   if (!(_.isObject(value))) {
     return `${value}`;
   }
@@ -16,31 +16,31 @@ const customStringify = (value, numOfTabs) => {
 };
 
 const formString = (mathSymbol, property, data, tabIndex) => `${newLine}${tab.repeat(tabIndex)}${mathSymbol} ${property}: `
-  .concat(customStringify(data, tabIndex));
+  .concat(stringify(data, tabIndex));
 
-const renderMethodsForOperations = {
-  added: (property, data, tabIndex) => formString('+', property, data.newObjValue, tabIndex),
-  removed: (property, data, tabIndex) => formString('-', property, data.oldObjValue, tabIndex),
-  updated: (property, data, tabIndex) => formString('+', property, data.newObjValue, tabIndex)
-    .concat(formString('-', property, data.oldObjValue, tabIndex)),
-  unchanged: (property, data, tabIndex) => formString(' ', property, data.oldObjValue, tabIndex),
+const renderMethods = {
+  added: (property, data, tabIndex) => formString('+', property, data, tabIndex),
+  removed: (property, data, tabIndex) => formString('-', property, data, tabIndex),
+  updated: (property, data, tabIndex) => formString('+', property, data.newValue, tabIndex)
+    .concat(formString('-', property, data.oldValue, tabIndex)),
+  unchanged: (property, data, tabIndex) => formString(' ', property, data, tabIndex),
 };
 
 const render = (ast, tabIndex = 1) => {
   const makeNodeProcessing = (acc, value) => {
     const {
       property,
-      operation,
+      type,
       data,
       children,
     } = value;
 
-    if (!children) {
-      const string = renderMethodsForOperations[operation](property, data, tabIndex + 1);
-      return acc.concat(string);
+    if (type === 'nested') {
+      const substring = render(children, tabIndex + 1);
+      return acc.concat(`${newLine}${tab.repeat(tabIndex + 1)}  ${property}: ${substring}`);
     }
-    const substring = render(children, tabIndex + 1);
-    return acc.concat(`${newLine}${tab.repeat(tabIndex + 1)}  ${property}: ${substring}`);
+    const string = renderMethods[type](property, data, tabIndex + 1);
+    return acc.concat(string);
   };
 
   const allStrings = ast.reduce(makeNodeProcessing, '');
