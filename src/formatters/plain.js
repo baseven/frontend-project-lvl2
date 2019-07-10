@@ -5,7 +5,7 @@ const stringify = (value) => {
     return '[complex value]';
   }
   return (parseInt(value, 10) || value === 0) ? `${value}` : `'${value}'`;
-}
+};
 
 const renderMethods = {
   added: data => `was added with value: ${stringify(data)}`,
