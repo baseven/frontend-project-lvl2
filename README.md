@@ -21,4 +21,4 @@ Step 6:
 [![asciicast](https://asciinema.org/a/tDWGLgcFOPIt4BsMkRmBziAyP.svg)](https://asciinema.org/a/tDWGLgcFOPIt4BsMkRmBziAyP)
 
 Step 7:
-[![asciicast](https://asciinema.org/a/Gnn0vOrlYdK5N6g4C3yno814k.svg)](https://asciinema.org/a/Gnn0vOrlYdK5N6g4C3yno814k)
+[![asciicast](https://asciinema.org/a/1snnCsQxI9P7TDopzDU1a0CCN.svg)](https://asciinema.org/a/1snnCsQxI9P7TDopzDU1a0CCN)
