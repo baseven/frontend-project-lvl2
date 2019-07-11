@@ -10,12 +10,12 @@ const pathToFile4 = `${path}__yml__/after.yml`;
 const pathToFile5 = `${path}__ini__/before.ini`;
 const pathToFile6 = `${path}__ini__/after.ini`;
 
-const getComplexTestResult = file => fs.readFileSync(`${path}__testResult__/${file}`, 'utf8');
+const getPrettyTestResult = file => fs.readFileSync(`${path}__testResult__/${file}`, 'utf8');
 const getPlainTestResult = file => fs.readFileSync(`${path}__testResult__/${file}`, 'utf8');
 const getJsonTestResult = file => fs.readFileSync(`${path}__testResult__/${file}`, 'utf8');
 
-test.each([[`${pathToFile1}`, `${pathToFile2}`, getComplexTestResult('complex.txt')], [`${pathToFile3}`, `${pathToFile4}`, getComplexTestResult('complex.txt')], [`${pathToFile5}`, `${pathToFile6}`, getComplexTestResult('complex.txt')]])(
-  'makeDiff using complex output format',
+test.each([[`${pathToFile1}`, `${pathToFile2}`, getPrettyTestResult('pretty.txt')], [`${pathToFile3}`, `${pathToFile4}`, getPrettyTestResult('pretty.txt')], [`${pathToFile5}`, `${pathToFile6}`, getPrettyTestResult('pretty.txt')]])(
+  'makeDiff using pretty output format',
   (pathToFileBefore, pathToFileAfter, testResult) => {
     expect(makeDiff(pathToFileBefore, pathToFileAfter)).toBe(testResult);
   },

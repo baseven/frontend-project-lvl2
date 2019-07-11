@@ -1,10 +1,10 @@
-import complexRender from './complex';
+import prettyRender from './pretty';
 import plainRender from './plain';
 import jsonRender from './json';
 
 const getRender = (format) => {
   const formatters = {
-    complex: complexRender,
+    pretty: prettyRender,
     plain: plainRender,
     json: jsonRender,
   };

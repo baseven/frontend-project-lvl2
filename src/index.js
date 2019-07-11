@@ -66,7 +66,7 @@ const makeAST = (oldObj, newObj) => {
   return ast;
 };
 
-const makeDiff = (pathToOldFile, pathToNewFile, format = 'complex') => {
+const makeDiff = (pathToOldFile, pathToNewFile, format = 'pretty') => {
   const objFromOldFile = getObject(pathToOldFile);
   const objFromNewFile = getObject(pathToNewFile);
 
