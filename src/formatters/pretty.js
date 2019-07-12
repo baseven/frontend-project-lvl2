@@ -19,11 +19,11 @@ const formString = (mathSymbol, property, data, tabIndex) => `${newLine}${tab.re
   .concat(stringify(data, tabIndex));
 
 const renderMethods = {
-  added: (property, data, tabIndex) => formString('+', property, data, tabIndex),
-  removed: (property, data, tabIndex) => formString('-', property, data, tabIndex),
-  updated: (property, data, tabIndex) => formString('+', property, data.newValue, tabIndex)
-    .concat(formString('-', property, data.oldValue, tabIndex)),
-  unchanged: (property, data, tabIndex) => formString(' ', property, data, tabIndex),
+  added: (property, oldData, newData, tabIndex) => formString('+', property, newData, tabIndex),
+  removed: (property, oldData, newData, tabIndex) => formString('-', property, oldData, tabIndex),
+  updated: (property, oldData, newData, tabIndex) => formString('+', property, newData, tabIndex)
+    .concat(formString('-', property, oldData, tabIndex)),
+  unchanged: (property, oldData, newData, tabIndex) => formString(' ', property, oldData, tabIndex),
 };
 
 const render = (ast, tabIndex = 1) => {
@@ -31,7 +31,8 @@ const render = (ast, tabIndex = 1) => {
     const {
       property,
       type,
-      data,
+      oldData,
+      newData,
       children,
     } = value;
 
@@ -39,7 +40,7 @@ const render = (ast, tabIndex = 1) => {
       const substring = render(children, tabIndex + 1);
       return acc.concat(`${newLine}${tab.repeat(tabIndex + 1)}  ${property}: ${substring}`);
     }
-    const string = renderMethods[type](property, data, tabIndex + 1);
+    const string = renderMethods[type](property, oldData, newData, tabIndex + 1);
     return acc.concat(string);
   };
 

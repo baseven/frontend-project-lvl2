@@ -6,21 +6,19 @@
             {
                 "property": "setting1",
                 "type": "unchanged",
-                "data": "Value 1"
+                "oldData": "Value 1"
             },
             {
                 "property": "setting2",
                 "type": "removed",
-                "data": "200"
+                "oldData": "200"
             },
             {
                 "property": "setting3",
                 "type": "updated",
-                "data": {
-                    "oldValue": true,
-                    "newValue": {
-                        "key": "value"
-                    }
+                "oldData": true,
+                "newData": {
+                    "key": "value"
                 }
             },
             {
@@ -30,29 +28,29 @@
                     {
                         "property": "key",
                         "type": "unchanged",
-                        "data": "value"
+                        "oldData": "value"
                     },
                     {
                         "property": "ops",
                         "type": "added",
-                        "data": "vops"
+                        "newData": "vops"
                     }
                 ]
             },
             {
                 "property": "follow",
                 "type": "added",
-                "data": false
+                "newData": false
             },
             {
                 "property": "setting4",
                 "type": "added",
-                "data": "blah blah"
+                "newData": "blah blah"
             },
             {
                 "property": "setting5",
                 "type": "added",
-                "data": {
+                "newData": {
                     "key5": "value5"
                 }
             }
@@ -65,39 +63,35 @@
             {
                 "property": "baz",
                 "type": "updated",
-                "data": {
-                    "oldValue": "bas",
-                    "newValue": "bars"
-                }
+                "oldData": "bas",
+                "newData": "bars"
             },
             {
                 "property": "foo",
                 "type": "unchanged",
-                "data": "bar"
+                "oldData": "bar"
             },
             {
                 "property": "nest",
                 "type": "updated",
-                "data": {
-                    "oldValue": {
-                        "key": "value"
-                    },
-                    "newValue": "str"
-                }
+                "oldData": {
+                    "key": "value"
+                },
+                "newData": "str"
             }
         ]
     },
     {
         "property": "group2",
         "type": "removed",
-        "data": {
+        "oldData": {
             "abc": "12345"
         }
     },
     {
         "property": "group3",
         "type": "added",
-        "data": {
+        "newData": {
             "fee": "100500"
         }
     }

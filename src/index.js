@@ -31,29 +31,27 @@ const makeAST = (oldObj, newObj) => {
     const nodeTypes = [
       {
         check: () => !(_.has(oldObj, arg)),
-        buildNode: () => ({ property: `${arg}`, type: 'added', data: newObj[arg] }),
+        buildNode: () => ({ property: arg, type: 'added', newData: newObj[arg] }),
       },
       {
         check: () => !(_.has(newObj, arg)),
-        buildNode: () => ({ property: `${arg}`, type: 'removed', data: oldObj[arg] }),
+        buildNode: () => ({ property: arg, type: 'removed', oldData: oldObj[arg] }),
       },
       {
         check: () => _.isObject(oldObj[arg]) && _.isObject(newObj[arg]),
-        buildNode: () => ({ property: `${arg}`, type: 'nested', children: makeAST(oldObj[arg], newObj[arg]) }),
+        buildNode: () => ({ property: arg, type: 'nested', children: makeAST(oldObj[arg], newObj[arg]) }),
       },
       {
         check: () => oldObj[arg] === newObj[arg],
-        buildNode: () => ({ property: `${arg}`, type: 'unchanged', data: oldObj[arg] }),
+        buildNode: () => ({ property: arg, type: 'unchanged', oldData: oldObj[arg] }),
       },
       {
         check: () => oldObj[arg] !== newObj[arg],
         buildNode: () => ({
-          property: `${arg}`,
+          property: arg,
           type: 'updated',
-          data: {
-            oldValue: oldObj[arg],
-            newValue: newObj[arg],
-          },
+          oldData: oldObj[arg],
+          newData: newObj[arg],
         }),
       },
     ];

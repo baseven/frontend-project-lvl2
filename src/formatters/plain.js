@@ -8,19 +8,20 @@ const stringify = (value) => {
 };
 
 const renderMethods = {
-  added: data => `was added with value: ${stringify(data)}`,
+  added: (oldData, newData) => `was added with value: ${stringify(newData)}`,
   removed: () => 'was removed',
-  updated: data => `was updated. From ${stringify(data.oldValue)} to ${stringify(data.newValue)}`,
+  updated: (oldData, newData) => `was updated. From ${stringify(oldData)} to ${stringify(newData)}`,
 };
 
-const getString = (property, type, data) => `Property '${property}' ${renderMethods[type](data)}\n`;
+const getString = (property, type, oldData, newData) => `Property '${property}' ${renderMethods[type](oldData, newData)}\n`;
 
 const render = (ast, path = '') => {
   const makeNodeProcessing = (acc, value) => {
     const {
       property,
       type,
-      data,
+      oldData,
+      newData,
       children,
     } = value;
 
@@ -33,7 +34,7 @@ const render = (ast, path = '') => {
       return acc.concat(substring);
     }
 
-    const string = getString(path.concat(`${property}`), type, data);
+    const string = getString(path.concat(`${property}`), type, oldData, newData);
     return acc.concat(string);
   };
 
