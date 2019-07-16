@@ -4,18 +4,10 @@ import _ from 'lodash';
 import getParser from './parsers';
 import getRender from './formatters';
 
-const getAbsPathToFile = (pathToFile) => {
-  const absPathToFile = path.isAbsolute(pathToFile)
-    ? pathToFile
-    : `${process.cwd()}/${pathToFile}`;
-
-  return absPathToFile;
-};
-
 const getContent = absPathToFile => fs.readFileSync(absPathToFile, 'utf-8');
 
 const getObject = (pathToFile) => {
-  const absPathToFile = getAbsPathToFile(pathToFile);
+  const absPathToFile = path.resolve(pathToFile);
   const content = getContent(absPathToFile);
   const extension = path.extname(absPathToFile);
 
