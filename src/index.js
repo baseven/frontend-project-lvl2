@@ -24,42 +24,42 @@ const getObject = (pathToFile) => {
   return parse(content);
 };
 
+const getNode = (arg, oldObj, newObj, makeAST) => {
+  const nodeTypes = [
+    {
+      check: () => !(_.has(oldObj, arg)),
+      buildNode: () => ({ property: arg, type: 'added', newData: newObj[arg] }),
+    },
+    {
+      check: () => !(_.has(newObj, arg)),
+      buildNode: () => ({ property: arg, type: 'removed', oldData: oldObj[arg] }),
+    },
+    {
+      check: () => _.isObject(oldObj[arg]) && _.isObject(newObj[arg]),
+      buildNode: () => ({ property: arg, type: 'nested', children: makeAST(oldObj[arg], newObj[arg]) }),
+    },
+    {
+      check: () => oldObj[arg] === newObj[arg],
+      buildNode: () => ({ property: arg, type: 'unchanged', oldData: oldObj[arg] }),
+    },
+    {
+      check: () => oldObj[arg] !== newObj[arg],
+      buildNode: () => ({
+        property: arg,
+        type: 'updated',
+        oldData: oldObj[arg],
+        newData: newObj[arg],
+      }),
+    },
+  ];
+
+  return nodeTypes.find(({ check }) => check()).buildNode();
+};
+
 const makeAST = (oldObj, newObj) => {
   const keys = _.union(Object.keys(oldObj), Object.keys(newObj));
 
-  const getNode = (arg) => {
-    const nodeTypes = [
-      {
-        check: () => !(_.has(oldObj, arg)),
-        buildNode: () => ({ property: arg, type: 'added', newData: newObj[arg] }),
-      },
-      {
-        check: () => !(_.has(newObj, arg)),
-        buildNode: () => ({ property: arg, type: 'removed', oldData: oldObj[arg] }),
-      },
-      {
-        check: () => _.isObject(oldObj[arg]) && _.isObject(newObj[arg]),
-        buildNode: () => ({ property: arg, type: 'nested', children: makeAST(oldObj[arg], newObj[arg]) }),
-      },
-      {
-        check: () => oldObj[arg] === newObj[arg],
-        buildNode: () => ({ property: arg, type: 'unchanged', oldData: oldObj[arg] }),
-      },
-      {
-        check: () => oldObj[arg] !== newObj[arg],
-        buildNode: () => ({
-          property: arg,
-          type: 'updated',
-          oldData: oldObj[arg],
-          newData: newObj[arg],
-        }),
-      },
-    ];
-
-    return nodeTypes.find(({ check }) => check()).buildNode();
-  };
-
-  const ast = keys.map(getNode);
+  const ast = keys.map(key => getNode(key, oldObj, newObj, makeAST));
 
   return ast;
 };

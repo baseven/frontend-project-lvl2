@@ -8,33 +8,21 @@ const stringify = (value) => {
 };
 
 const renderMethods = {
-  added: (oldData, newData) => `was added with value: ${stringify(newData)}`,
-  removed: () => 'was removed',
-  updated: (oldData, newData) => `was updated. From ${stringify(oldData)} to ${stringify(newData)}`,
+  added: (property, node) => `Property '${property}' was added with value: ${stringify(node.newData)}\n`,
+  removed: property => `Property '${property}' was removed\n`,
+  updated: (property, node) => `Property '${property}' was updated. From ${stringify(node.oldData)} to ${stringify(node.newData)}\n`,
+  unchanged: () => '',
+  nested: (property, node, render) => render(node.children, property),
 };
 
-const getString = (property, type, oldData, newData) => `Property '${property}' ${renderMethods[type](oldData, newData)}\n`;
-
 const render = (ast, path = '') => {
-  const makeNodeProcessing = (acc, value) => {
-    const {
-      property,
-      type,
-      oldData,
-      newData,
-      children,
-    } = value;
+  const makeNodeProcessing = (acc, node) => {
+    const { property, type } = node;
 
-    if (type === 'unchanged') {
-      return acc;
-    }
+    const updatedProperty = path ? path.concat(`.${property}`) : `${property}`;
 
-    if (type === 'nested') {
-      const substring = render(children, path.concat(`${property}.`));
-      return acc.concat(substring);
-    }
+    const string = renderMethods[type](updatedProperty, node, render);
 
-    const string = getString(path.concat(`${property}`), type, oldData, newData);
     return acc.concat(string);
   };
 
