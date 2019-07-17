@@ -2,50 +2,39 @@ import _ from 'lodash';
 
 const [tab, newLine] = ['  ', '\n'];
 
-const stringify = (value, numOfTabs) => {
-  if (!(_.isObject(value))) {
-    return `${value}`;
+const customStringify = (data, depth) => {
+  if (!(_.isObject(data))) {
+    return `${data}`;
   }
-  const element = JSON.stringify(value)
+  const element = JSON.stringify(data)
     .replace('{', '')
     .replace('}', '')
     .split('"')
     .join('');
 
-  return `{${newLine}${tab.repeat(numOfTabs + 2)}${element}${newLine}${tab.repeat(numOfTabs + 1)}}`;
+  return `{${newLine}${tab.repeat(depth + 2)}${element}${newLine}${tab.repeat(depth + 1)}}`;
 };
 
-const formString = (mathSymbol, property, data, tabIndex) => `${newLine}${tab.repeat(tabIndex)}${mathSymbol} ${property}: `
-  .concat(stringify(data, tabIndex));
+const makeString = (mathSymbol, property, data, depth) => `${newLine}${tab.repeat(depth)}${mathSymbol} ${property}: ${data}`;
 
 const renderMethods = {
-  added: (property, oldData, newData, tabIndex) => formString('+', property, newData, tabIndex),
-  removed: (property, oldData, newData, tabIndex) => formString('-', property, oldData, tabIndex),
-  updated: (property, oldData, newData, tabIndex) => formString('+', property, newData, tabIndex)
-    .concat(formString('-', property, oldData, tabIndex)),
-  unchanged: (property, oldData, newData, tabIndex) => formString(' ', property, oldData, tabIndex),
+  added: (node, depth) => makeString('+', node.property, customStringify(node.newData, depth), depth),
+  removed: (node, depth) => makeString('-', node.property, customStringify(node.oldData, depth), depth),
+  updated: (node, depth) => makeString('+', node.property, customStringify(node.newData, depth), depth)
+    .concat(makeString('-', node.property, customStringify(node.oldData, depth), depth)),
+  unchanged: (node, depth) => makeString(' ', node.property, customStringify(node.oldData, depth), depth),
+  nested: (node, depth, render) => makeString(' ', node.property, render(node.children, depth + 1), depth),
 };
 
-const render = (ast, tabIndex = 1) => {
-  const makeNodeProcessing = (acc, value) => {
-    const {
-      property,
-      type,
-      oldData,
-      newData,
-      children,
-    } = value;
-
-    if (type === 'nested') {
-      const substring = render(children, tabIndex + 1);
-      return acc.concat(`${newLine}${tab.repeat(tabIndex + 1)}  ${property}: ${substring}`);
-    }
-    const string = renderMethods[type](property, oldData, newData, tabIndex + 1);
+const render = (ast, depth = 1) => {
+  const makeNodeProcessing = (acc, node) => {
+    const { type } = node;
+    const string = renderMethods[type](node, depth, render);
     return acc.concat(string);
   };
 
   const allStrings = ast.reduce(makeNodeProcessing, '');
-  return `{${allStrings}${newLine}${tab.repeat(tabIndex === 1 ? 0 : tabIndex + 1)}}`;
+  return `{${allStrings}${newLine}${tab.repeat(depth === 1 ? 0 : depth)}}`;
 };
 
 export default render;

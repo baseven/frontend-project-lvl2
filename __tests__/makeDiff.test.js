@@ -1,7 +1,7 @@
 import fs from 'fs';
 import makeDiff from '../src';
 
-const path = `${__dirname}/__fixtures__/__recursiveStructure__/`;
+const path = `${__dirname}/__fixtures__/`;
 
 const arrayOfExtensions = ['json', 'yml', 'ini'];
 const arrayOfFormats = ['pretty', 'plain', 'json'];
