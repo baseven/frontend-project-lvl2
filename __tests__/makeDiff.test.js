@@ -3,28 +3,47 @@ import makeDiff from '../src';
 
 const path = `${__dirname}/__fixtures__/`;
 
-const arrayOfExtensions = ['json', 'yml', 'ini'];
-const arrayOfFormats = ['pretty', 'plain', 'json'];
+const inputExtensions = ['json', 'yml', 'ini'];
+const outputFormats = [
+  {
+    formatName: 'pretty',
+    formatExtension: 'txt',
+  },
+  {
+    formatName: 'plain',
+    formatExtension: 'txt',
+  },
+  {
+    formatName: 'json',
+    formatExtension: 'json',
+  },
+];
 
-const getPathToFile = (extension, name) => `${path}__${extension}__/${name}.${extension}`;
+const getPathToFile = (fileName, fileExtension) => `${path}__${fileExtension}__/${fileName}.${fileExtension}`;
 
-const getTestResult = filename => fs.readFileSync(`${path}__testResult__/${filename}`, 'utf8');
+const getTestResult = (formatName, formatExtension) => fs.readFileSync(`${path}__testResult__/${formatName}.${formatExtension}`, 'utf8');
 
-const getTestParameters = (extension, filename) => [getPathToFile(extension, 'before'), getPathToFile(extension, 'after'), getTestResult(filename)];
+const getTestParameters = (fileExtension, formatName, formatExtension) => [
+  getPathToFile('before', fileExtension),
+  getPathToFile('after', fileExtension),
+  getTestResult(formatName, formatExtension),
+];
 
-const getTestTable = (extensions, filename) => extensions.map(v => getTestParameters(v, filename));
+const getTestTable = (fileExtensions, formatName, formatExtension) => fileExtensions.map(
+  fileExtension => getTestParameters(fileExtension, formatName, formatExtension),
+);
 
-const makeTest = (extensions, format) => {
-  const filename = format === 'json' ? 'json.json' : `${format}.txt`;
-
-  test.each(getTestTable(extensions, filename))(
-    `makeDiff using ${format} output format`,
+const makeTest = (fileExtensions, formatName, formatExtension) => {
+  test.each(getTestTable(fileExtensions, formatName, formatExtension))(
+    `makeDiff using ${formatName} output format`,
     (pathToFileBefore, pathToFileAfter, testResult) => {
-      expect(makeDiff(pathToFileBefore, pathToFileAfter, format)).toBe(testResult);
+      expect(makeDiff(pathToFileBefore, pathToFileAfter, formatName)).toBe(testResult);
     },
   );
 };
 
-const makeTestSuites = (extensions, formats) => formats.map(format => makeTest(extensions, format));
+const makeTestSuites = (extensions, formats) => formats.map(
+  ({ formatName, formatExtension }) => makeTest(extensions, formatName, formatExtension),
+);
 
-makeTestSuites(arrayOfExtensions, arrayOfFormats);
+makeTestSuites(inputExtensions, outputFormats);

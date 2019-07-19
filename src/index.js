@@ -16,15 +16,16 @@ const getObject = (pathToFile) => {
   return parse(content);
 };
 
-const makeNodeType = (firstObj, secondObj, arg, type, dataType) => ({
-  check: () => !(_.has(firstObj, arg)),
-  buildNode: () => ({ property: arg, type, [dataType]: secondObj[arg] }),
-});
-
 const getNode = (arg, oldObj, newObj, makeAST) => {
   const nodeTypes = [
-    makeNodeType(oldObj, newObj, arg, 'added', 'newData'),
-    makeNodeType(newObj, oldObj, arg, 'removed', 'oldData'),
+    {
+      check: () => !(_.has(oldObj, arg)),
+      buildNode: () => ({ property: arg, type: 'added', newData: newObj[arg] }),
+    },
+    {
+      check: () => !(_.has(newObj, arg)),
+      buildNode: () => ({ property: arg, type: 'removed', oldData: oldObj[arg] }),
+    },
     {
       check: () => _.isObject(oldObj[arg]) && _.isObject(newObj[arg]),
       buildNode: () => ({ property: arg, type: 'nested', children: makeAST(oldObj[arg], newObj[arg]) }),
