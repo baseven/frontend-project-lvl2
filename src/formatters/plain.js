@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+const newLine = '\n';
+
 const stringify = (value) => {
   if (_.isObject(value)) {
     return '[complex value]';
@@ -8,10 +10,10 @@ const stringify = (value) => {
 };
 
 const renderMethods = {
-  added: (property, node) => `Property '${property}' was added with value: ${stringify(node.newData)}\n`,
-  removed: property => `Property '${property}' was removed\n`,
-  updated: (property, node) => `Property '${property}' was updated. From ${stringify(node.oldData)} to ${stringify(node.newData)}\n`,
-  unchanged: () => '',
+  added: (property, node) => `Property '${property}' was added with value: ${stringify(node.newData)}`,
+  removed: property => `Property '${property}' was removed`,
+  updated: (property, node) => `Property '${property}' was updated. From ${stringify(node.oldData)} to ${stringify(node.newData)}`,
+  unchanged: () => null,
   nested: (property, node, render) => render(node.children, property),
 };
 
@@ -23,10 +25,13 @@ const render = (ast, path = '') => {
 
     const string = renderMethods[type](updatedProperty, node, render);
 
-    return acc.concat(string);
+    return _.flatten([...acc, string]);
   };
 
-  return ast.reduce(makeNodeProcessing, '');
+  const strings = ast.reduce(makeNodeProcessing, [])
+    .filter(_.identity)
+    .join(`${newLine}`);
+  return strings;
 };
 
 export default render;
