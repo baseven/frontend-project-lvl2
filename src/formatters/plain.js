@@ -18,19 +18,20 @@ const renderMethods = {
 };
 
 const render = (ast, path = '') => {
-  const makeNodeProcessing = (acc, node) => {
+  const makeNodeProcessing = (node) => {
     const { property, type } = node;
 
     const updatedProperty = path ? path.concat(`.${property}`) : `${property}`;
 
     const string = renderMethods[type](updatedProperty, node, render);
 
-    return _.flatten([...acc, string]);
+    return string;
   };
 
-  const strings = ast.reduce(makeNodeProcessing, [])
+  const strings = ast.map(makeNodeProcessing)
     .filter(_.identity)
-    .join(`${newLine}`);
+    .join(newLine);
+
   return strings;
 };
 

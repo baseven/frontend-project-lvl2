@@ -37,7 +37,8 @@ const render = (ast, depth = 1) => {
 
   const indent = tab.repeat(depth === 1 ? 0 : depth);
   const strings = ast.map(makeNodeProcessing);
-  const content = _.flattenDeep(strings).join(`${newLine}`);
+
+  const content = _.flattenDeep(strings).join(newLine);
 
   return `{${newLine}${content}${newLine}${indent}}`;
 };
