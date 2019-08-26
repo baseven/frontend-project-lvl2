@@ -3,7 +3,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/fa53fc87039982487d68/test_coverage)](https://codeclimate.com/github/baseven/frontend-project-lvl2/test_coverage)
 
 ## Description
-Command line utility for finding differences in configuration files.
+The command line utility compares two configuration files and shows a difference..
 The utility supports the following input data formats: json, yaml, ini.
 The output report can be generated in one of the following formats: pretty (default), plain, json.
 
@@ -20,13 +20,11 @@ Navigate to the project directory and follow the steps below:
 ```
 make install
 ```
-
 2. Publish the package locally:
 
 ```
 make publish
 ```
-
 3. Install the package from local storage:
 
 ```
